@@ -10,10 +10,11 @@
         .container { max-width: 1200px; margin: 0 auto; }
         .header { text-align: center; color: white; margin-bottom: 30px; }
         .header h1 { font-size: 2.5em; margin-bottom: 10px; }
-        .role-switch { text-align: center; margin-bottom: 20px; }
-        .role-switch button { padding: 10px 20px; margin: 0 5px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; background: white; color: #667eea; font-weight: bold; transition: all 0.3s; }
-        .role-switch button.active { background: #667eea; color: white; }
-        .role-switch button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        .role-switch { display: flex; gap: 10px; }
+        .role-switch button, .lang-switch button { padding: 10px 20px; margin: 0 5px; border: none; border-radius: 5px; cursor: pointer; font-size: 14px; background: white; color: #667eea; font-weight: bold; transition: all 0.3s; }
+        .role-switch button.active, .lang-switch button.active { background: #667eea; color: white; }
+        .role-switch button:hover, .lang-switch button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         .employee-view, .owner-view { background: white; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); padding: 30px; }
         .hidden { display: none !important; }
         .section-title { font-size: 1.8em; color: #333; margin-bottom: 20px; border-bottom: 3px solid #667eea; padding-bottom: 10px; }
@@ -58,114 +59,110 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>🏢 Vacation Scheduler</h1>
-            <p>Manage employee time-off efficiently</p>
+            <h1 data-en="🏢 Vacation Scheduler" data-pt="🏢 Agendador de Férias"></h1>
+            <p data-en="Manage employee time-off efficiently" data-pt="Gerencie o tempo de folga dos funcionários com eficiência"></p>
         </div>
         
-        <div class="role-switch">
-            <button class="btn-role active" onclick="switchRole('employee')">👤 Employee View</button>
-            <button class="btn-role" onclick="switchRole('owner')">👔 Owner/Admin View</button>
+        <div class="controls">
+            <div class="role-switch">
+                <button class="btn-role active" onclick="switchRole('employee')" data-en="👤 Employee View" data-pt="👤 Visualização de Funcionário"></button>
+                <button class="btn-role" onclick="switchRole('owner')" data-en="👔 Owner/Admin View" data-pt="👔 Visualização de Proprietário"></button>
+            </div>
+            <div class="lang-switch">
+                <button class="lang-btn active" onclick="setLanguage('en')" data-en="English" data-pt="English">EN</button>
+                <button class="lang-btn" onclick="setLanguage('pt')" data-en="Português" data-pt="Português">PT</button>
+            </div>
         </div>
 
         <div id="employeeView" class="employee-view">
-            <h2 class="section-title">📋 Request Vacation</h2>
-            
+            <h2 class="section-title" data-en="📋 Request Vacation" data-pt="📋 Solicitar Férias"></h2>
             <div class="form-group">
-                <label for="empName">Employee Name:</label>
-                <input type="text" id="empName" placeholder="Enter your name">
+                <label for="empName" data-en="Employee Name:" data-pt="Nome do Funcionário:"></label>
+                <input type="text" id="empName" data-placeholder-en="Enter your name" data-placeholder-pt="Insira seu nome">
             </div>
-            
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                 <div class="form-group">
-                    <label for="startDate">Start Date:</label>
+                    <label for="startDate" data-en="Start Date:" data-pt="Data de Início:"></label>
                     <input type="date" id="startDate" onchange="calculateDays()">
                 </div>
                 <div class="form-group">
-                    <label for="endDate">End Date:</label>
+                    <label for="endDate" data-en="End Date:" data-pt="Data de Término:"></label>
                     <input type="date" id="endDate" onchange="calculateDays()">
                 </div>
             </div>
-            
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                 <div class="form-group">
-                    <label for="vacationType">Vacation Type:</label>
+                    <label for="vacationType" data-en="Vacation Type:" data-pt="Tipo de Licença:"></label>
                     <select id="vacationType">
-                        <option value="vacation">Vacation</option>
-                        <option value="sick">Sick Leave</option>
-                        <option value="personal">Personal Day</option>
+                        <option value="vacation" data-en="Vacation" data-pt="Férias">Vacation</option>
+                        <option value="sick" data-en="Sick Leave" data-pt="Licença Médica">Sick Leave</option>
+                        <option value="personal" data-en="Personal Day" data-pt="Dia Pessoal">Personal Day</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="days">Days Count:</label>
+                    <label for="days" data-en="Days Count:" data-pt="Contagem de Dias:"></label>
                     <input type="number" id="days" readonly>
                 </div>
             </div>
-            
             <div class="form-group">
-                <label for="notes">Notes:</label>
-                <textarea id="notes" placeholder="Any additional information..."></textarea>
+                <label for="notes" data-en="Notes:" data-pt="Notas:"></label>
+                <textarea id="notes" data-placeholder-en="Any additional information..." data-placeholder-pt="Qualquer informação adicional..."></textarea>
             </div>
-            
-            <button class="btn btn-primary" onclick="submitRequest()">📤 Submit Request</button>
-            
-            <h2 class="section-title" style="margin-top: 40px;">📊 Your Vacation Days</h2>
+            <button class="btn btn-primary" onclick="submitRequest()" data-en="📤 Submit Request" data-pt="📤 Enviar Solicitação"></button>
+            <h2 class="section-title" style="margin-top: 40px;" data-en="📊 Your Vacation Days" data-pt="📊 Seus Dias de Férias"></h2>
             <div class="vacation-days">
-                <div class="day-item">
-                    <div class="number" id="availableDays">20</div>
-                    <div class="label">Available Days</div>
-                </div>
-                <div class="day-item">
-                    <div class="number" id="usedDays">0</div>
-                    <div class="label">Used Days</div>
-                </div>
-                <div class="day-item">
-                    <div class="number" id="remainingDays">20</div>
-                    <div class="label">Remaining Days</div>
-                </div>
+                <div class="day-item"><div class="number" id="availableDays">20</div><div class="label" data-en="Available Days" data-pt="Dias Disponíveis"></div></div>
+                <div class="day-item"><div class="number" id="usedDays">0</div><div class="label" data-en="Used Days" data-pt="Dias Usados"></div></div>
+                <div class="day-item"><div class="number" id="remainingDays">20</div><div class="label" data-en="Remaining Days" data-pt="Dias Restantes"></div></div>
             </div>
-            
-            <h2 class="section-title" style="margin-top: 40px;">📅 Company Calendar</h2>
+            <h2 class="section-title" style="margin-top: 40px;" data-en="📅 Company Calendar" data-pt="📅 Calendário da Empresa"></h2>
             <div id="employeeCalendar" style="overflow-x: auto;"></div>
-            
-            <h2 class="section-title" style="margin-top: 40px;">📝 Your Requests</h2>
+            <h2 class="section-title" style="margin-top: 40px;" data-en="📝 Your Requests" data-pt="📝 Suas Solicitações"></h2>
             <div id="employeeRequests"></div>
         </div>
 
         <div id="ownerView" class="owner-view hidden">
-            <h2 class="section-title">📊 Dashboard</h2>
-            
+            <h2 class="section-title" data-en="📊 Dashboard" data-pt="📊 Painel de Controle"></h2>
             <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-number" id="totalRequests">0</div>
-                    <div class="stat-label">Total Requests</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="pendingRequests">0</div>
-                    <div class="stat-label">Pending Approval</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="approvedCount">0</div>
-                    <div class="stat-label">Approved</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number" id="employeesOut">0</div>
-                    <div class="stat-label">Out Today</div>
-                </div>
+                <div class="stat-card"><div class="stat-number" id="totalRequests">0</div><div class="stat-label" data-en="Total Requests" data-pt="Solicitações Totais"></div></div>
+                <div class="stat-card"><div class="stat-number" id="pendingRequests">0</div><div class="stat-label" data-en="Pending Approval" data-pt="Aprovação Pendente"></div></div>
+                <div class="stat-card"><div class="stat-number" id="approvedCount">0</div><div class="stat-label" data-en="Approved" data-pt="Aprovadas"></div></div>
+                <div class="stat-card"><div class="stat-number" id="employeesOut">0</div><div class="stat-label" data-en="Out Today" data-pt="Fora Hoje"></div></div>
             </div>
-            
-            <h2 class="section-title" style="margin-top: 40px;">👥 Team Calendar</h2>
+            <h2 class="section-title" style="margin-top: 40px;" data-en="👥 Team Calendar" data-pt="👥 Calendário da Equipe"></h2>
             <div id="ownerCalendar" style="overflow-x: auto;"></div>
-            
-            <h2 class="section-title" style="margin-top: 40px;">⏳ Pending Approvals</h2>
+            <h2 class="section-title" style="margin-top: 40px;" data-en="⏳ Pending Approvals" data-pt="⏳ Aprovações Pendentes"></h2>
             <div id="pendingApprovals"></div>
-            
-            <h2 class="section-title" style="margin-top: 40px;">📜 All Requests</h2>
+            <h2 class="section-title" style="margin-top: 40px;" data-en="📜 All Requests" data-pt="📜 Todas as Solicitações"></h2>
             <div id="allRequests"></div>
         </div>
     </div>
 
     <script>
+        let currentLanguage = 'en';
         const STORAGE_KEY = 'vacation_requests';
+        
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('language', lang);
+            updateLanguage();
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        function updateLanguage() {
+            document.querySelectorAll('[data-en]').forEach(el => {
+                if (el.tagName === 'LABEL' || el.tagName === 'BUTTON' || el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'P') {
+                    el.textContent = el.getAttribute(`data-${currentLanguage}`);
+                }
+            });
+            document.querySelectorAll('[data-placeholder-en]').forEach(el => {
+                el.placeholder = el.getAttribute(`data-placeholder-${currentLanguage}`);
+            });
+            document.querySelectorAll('option[data-en]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${currentLanguage}`);
+            });
+        }
         
         function getRequests() {
             const data = localStorage.getItem(STORAGE_KEY);
@@ -186,7 +183,7 @@
             const days = parseInt(document.getElementById('days').value);
             
             if (!empName || !startDate || !endDate || days === 0) {
-                alert('Please fill in all required fields');
+                alert(currentLanguage === 'pt' ? 'Por favor, preencha todos os campos obrigatórios' : 'Please fill in all required fields');
                 return;
             }
             
@@ -212,7 +209,7 @@
             document.getElementById('notes').value = '';
             document.getElementById('days').value = '';
             
-            alert('Request submitted successfully!');
+            alert(currentLanguage === 'pt' ? 'Solicitação enviada com sucesso!' : 'Request submitted successfully!');
         }
         
         function calculateDays() {
@@ -258,10 +255,10 @@
             const lastDay = new Date(year, month + 1, 0);
             const daysInMonth = lastDay.getDate();
             const startingDayOfWeek = firstDay.getDay();
+            const dayNames = currentLanguage === 'pt' ? ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'] : ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
             
             let html = '<table class="calendar"><thead><tr>';
-            const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            days.forEach(day => html += `<th>${day}</th>`);
+            dayNames.forEach(day => html += `<th>${day}</th>`);
             html += '</tr></thead><tbody><tr>';
             
             for (let i = 0; i < startingDayOfWeek; i++) {
@@ -309,13 +306,15 @@
             document.getElementById('employeeCalendar').innerHTML = generateCalendar(currentDate.getFullYear(), currentDate.getMonth());
             
             let html = '';
+            const emptyMsg = currentLanguage === 'pt' ? 'Nenhuma solicitação de férias ainda' : 'No vacation requests yet';
             if (requests.length === 0) {
-                html = '<div class="empty-message">No vacation requests yet</div>';
+                html = `<div class="empty-message">${emptyMsg}</div>`;
             } else {
                 requests.forEach(req => {
+                    const statusTexts = {en: {pending: 'Pending', approved: 'Approved', rejected: 'Rejected'}, pt: {pending: 'Pendente', approved: 'Aprovada', rejected: 'Rejeitada'}};
                     const statusClass = req.status;
-                    const statusText = req.status.charAt(0).toUpperCase() + req.status.slice(1);
-                    html += `<div class="request-item ${statusClass}"><div class="request-header"><div><strong>${req.empName}</strong> - ${req.vacationType}</div><span class="request-status status-${statusClass}">${statusText}</span></div><div>${req.startDate} to ${req.endDate} (${req.days} days)</div>${req.notes ? `<div><em>${req.notes}</em></div>` : ''}</div>`;
+                    const statusText = statusTexts[currentLanguage][statusClass];
+                    html += `<div class="request-item ${statusClass}"><div class="request-header"><div><strong>${req.empName}</strong> - ${req.vacationType}</div><span class="request-status status-${statusClass}">${statusText}</span></div><div>${req.startDate} ${currentLanguage === 'pt' ? 'para' : 'to'} ${req.endDate} (${req.days} ${currentLanguage === 'pt' ? 'dias' : 'days'})</div>${req.notes ? `<div><em>${req.notes}</em></div>` : ''}</div>`;
                 });
             }
             document.getElementById('employeeRequests').innerHTML = html;
@@ -341,23 +340,27 @@
             
             let pendingHtml = '';
             const pendingRequests = requests.filter(r => r.status === 'pending');
+            const noPendingMsg = currentLanguage === 'pt' ? 'Sem solicitações pendentes' : 'No pending requests';
             if (pendingRequests.length === 0) {
-                pendingHtml = '<div class="empty-message">No pending requests</div>';
+                pendingHtml = `<div class="empty-message">${noPendingMsg}</div>`;
             } else {
+                const btnTexts = currentLanguage === 'pt' ? {approve: 'Aprovar', reject: 'Rejeitar'} : {approve: 'Approve', reject: 'Reject'};
                 pendingRequests.forEach(req => {
-                    pendingHtml += `<div class="request-item pending"><div class="request-header"><div><strong>${req.empName}</strong> - ${req.vacationType}</div><span class="request-status status-pending">Pending</span></div><div>${req.startDate} to ${req.endDate} (${req.days} days)</div>${req.notes ? `<div><em>${req.notes}</em></div>` : ''}<div class="request-actions"><button class="btn btn-success" onclick="approveRequest(${req.id})">Approve</button><button class="btn btn-danger" onclick="rejectRequest(${req.id})">Reject</button></div></div>`;
+                    pendingHtml += `<div class="request-item pending"><div class="request-header"><div><strong>${req.empName}</strong> - ${req.vacationType}</div><span class="request-status status-pending">${currentLanguage === 'pt' ? 'Pendente' : 'Pending'}</span></div><div>${req.startDate} ${currentLanguage === 'pt' ? 'para' : 'to'} ${req.endDate} (${req.days} ${currentLanguage === 'pt' ? 'dias' : 'days'})</div>${req.notes ? `<div><em>${req.notes}</em></div>` : ''}<div class="request-actions"><button class="btn btn-success" onclick="approveRequest(${req.id})">${btnTexts.approve}</button><button class="btn btn-danger" onclick="rejectRequest(${req.id})">${btnTexts.reject}</button></div></div>`;
                 });
             }
             document.getElementById('pendingApprovals').innerHTML = pendingHtml;
             
             let allHtml = '';
+            const noRequestsMsg = currentLanguage === 'pt' ? 'Sem solicitações' : 'No requests';
             if (requests.length === 0) {
-                allHtml = '<div class="empty-message">No requests</div>';
+                allHtml = `<div class="empty-message">${noRequestsMsg}</div>`;
             } else {
+                const statusTexts = {en: {pending: 'Pending', approved: 'Approved', rejected: 'Rejected'}, pt: {pending: 'Pendente', approved: 'Aprovada', rejected: 'Rejeitada'}};
                 requests.forEach(req => {
                     const statusClass = req.status;
-                    const statusText = req.status.charAt(0).toUpperCase() + req.status.slice(1);
-                    allHtml += `<div class="request-item ${statusClass}"><div class="request-header"><div><strong>${req.empName}</strong> - ${req.vacationType}</div><span class="request-status status-${statusClass}">${statusText}</span></div><div>${req.startDate} to ${req.endDate} (${req.days} days)</div>${req.notes ? `<div><em>${req.notes}</em></div>` : ''}</div>`;
+                    const statusText = statusTexts[currentLanguage][statusClass];
+                    allHtml += `<div class="request-item ${statusClass}"><div class="request-header"><div><strong>${req.empName}</strong> - ${req.vacationType}</div><span class="request-status status-${statusClass}">${statusText}</span></div><div>${req.startDate} ${currentLanguage === 'pt' ? 'para' : 'to'} ${req.endDate} (${req.days} ${currentLanguage === 'pt' ? 'dias' : 'days'})</div>${req.notes ? `<div><em>${req.notes}</em></div>` : ''}</div>`;
                 });
             }
             document.getElementById('allRequests').innerHTML = allHtml;
@@ -368,7 +371,13 @@
             updateOwnerView();
         }
         
-        updateAllViews();
+        window.addEventListener('DOMContentLoaded', () => {
+            currentLanguage = localStorage.getItem('language') || 'en';
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.lang-btn[onclick="setLanguage('${currentLanguage}')"]`)?.classList.add('active');
+            updateLanguage();
+            updateAllViews();
+        });
     </script>
 </body>
 </html>
