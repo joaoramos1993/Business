@@ -1,0 +1,36 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vacation_scheduler
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+    networks:
+      - business_network
+    environment:
+      - NODE_ENV=production
+
+  # Development service (optional - for hot-reload during development)
+  dev:
+    image: node:20-alpine
+    container_name: vacation_scheduler_dev
+    working_dir: /app
+    command: npm run dev
+    ports:
+      - "3001:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
+    networks:
+      - business_network
+    profiles:
+      - dev
+
+networks:
+  business_network:
+    driver: bridge

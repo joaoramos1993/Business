@@ -1,6 +1,14 @@
-# Vacation Scheduler
+# Vacation Scheduler Web Application
 
-A modern web application for managing employee vacation requests and scheduling. This project provides separate interfaces for employees to request time off and for owners/managers to review and approve vacation requests.
+A modern web application for managing employee vacation requests with an admin dashboard featuring interactive map visualization.
+
+## Build System Setup ✅
+
+This project now includes a complete **Vite-based build system** with:
+- ⚡ Lightning-fast development server with HMR
+- 📦 Optimized production builds
+- 🗺️ Leaflet.js interactive maps
+- 🌐 Modular code structure
 
 ## Features
 
@@ -10,18 +18,125 @@ A modern web application for managing employee vacation requests and scheduling.
 - **View Company Calendar**: See the company calendar with approved vacations highlighted
 - **Request History**: Track all personal vacation requests with their status (pending/approved/rejected)
 - **Automatic Day Calculation**: System automatically calculates the number of days between start and end dates
+- **Bilingual Support**: Toggle between English and Portuguese
 
 ### Owner/Admin Features
 - **Dashboard Statistics**: Real-time overview of total requests, pending approvals, approved count, and employees out today
+- **🗺️ Interactive Map**: Visual map showing employees currently on vacation with detailed popups
 - **Team Calendar**: View the company calendar with all approved vacations
 - **Pending Approvals**: Quick access to pending requests with approve/reject buttons
 - **Request History**: Complete history of all employee requests with filtering by status
 - **Easy Approval Workflow**: One-click approval or rejection of vacation requests
 
+## Project Structure
+
+```
+Business/
+├── src/
+│   ├── index.html       # Main HTML file
+│   ├── css/
+│   │   └── styles.css   # Application styles
+│   └── js/
+│       └── app.js       # Application logic with map integration
+├── public/              # Static assets
+├── dist/                # Production build output (generated)
+├── package.json         # Dependencies and build scripts
+├── vite.config.js       # Vite build configuration
+├── .gitignore          # Git ignore rules
+├── index.html.backup   # Your original file (backed up)
+└── README.md           # This file
+```
+
+## Getting Started
+
+### Option 1: Docker (Recommended) 🐳
+
+#### Prerequisites
+- Docker and Docker Compose installed (run `./get-docker.sh` on Linux to install)
+
+#### Production Mode
+
+1. **Build and run with Docker Compose:**
+```bash
+docker compose up -d
+```
+
+2. **Access the application:**
+   - Web app: http://localhost:3000
+
+3. **Stop the containers:**
+```bash
+docker compose down
+```
+
+#### Development Mode (with hot-reload)
+
+```bash
+docker compose --profile dev up
+```
+Access at http://localhost:3001
+
+### Option 2: Local Development
+
+#### Prerequisites
+- Node.js (v16 or higher)
+- npm or yarn
+
+#### Installation
+
+1. **Install dependencies:**
+```bash
+npm install
+```
+
+#### Development
+
+Start the development server with hot reload:
+```bash
+npm run dev
+```
+
+The application will open automatically at `http://localhost:3000`
+
+#### Building for Production
+
+Create an optimized production build:
+```bash
+npm run build
+```
+
+The built files will be in the `dist/` directory.
+
+#### Preview Production Build
+
+Preview the production build locally:
+```bash
+npm run preview
+```
+
+## Available Scripts
+
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Start development server with HMR |
+| `npm run build` | Create optimized production build |
+| `npm run preview` | Preview production build locally |
+| `npm run serve` | Serve production build on port 3000 |
+
+## Docker Commands
+
+| Command | Description |
+|---------|-------------|
+| `docker compose up -d` | Start production containers in background |
+| `docker compose --profile dev up` | Start development mode with hot-reload |
+| `docker compose down` | Stop all containers |
+| `docker compose logs -f` | View container logs |
+| `docker compose ps` | List running containers |
+
 ## How to Use
 
 ### For Employees:
-1. Open `index.html` in your web browser
+1. Navigate to the application (http://localhost:3000 for Docker or development server)
 2. Stay in **Employee View** (default)
 3. Fill in your name, select vacation dates
 4. Choose the type of leave (Vacation, Sick Leave, or Personal Day)
@@ -30,11 +145,12 @@ A modern web application for managing employee vacation requests and scheduling.
 7. View your request status and company calendar
 
 ### For Owners/Managers:
-1. Open `index.html` in your web browser
+1. Navigate to the application (http://localhost:3000)
 2. Click **Owner/Admin View** button
 3. Check the dashboard for an overview of all requests
-4. Review **Pending Approvals** section
-5. Click **Approve** or **Reject** for each request
+4. View the **interactive map** showing employees on vacation
+5. Review **Pending Approvals** section
+6. Click **Approve** or **Reject** for each request
 6. View all requests in **All Requests** section
 7. Monitor the **Team Calendar** for approved vacations
 

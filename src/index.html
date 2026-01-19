@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vacation Scheduler</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 data-en="🏢 Vacation Scheduler" data-pt="🏢 Agendador de Férias">🏢 Vacation Scheduler</h1>
+            <p data-en="Manage employee time-off efficiently" data-pt="Gerencie o tempo de folga dos funcionários com eficiência">Manage employee time-off efficiently</p>
+        </div>
+        
+        <div class="controls">
+            <div class="role-switch">
+                <button class="btn-role active" onclick="switchRole('employee')" data-en="👤 Employee View" data-pt="👤 Visualização de Funcionário">👤 Employee View</button>
+                <button class="btn-role" onclick="switchRole('owner')" data-en="👔 Owner/Admin View" data-pt="👔 Visualização de Proprietário">👔 Owner/Admin View</button>
+            </div>
+            <div class="lang-switch">
+                <button class="lang-btn active" onclick="setLanguage('en')" data-en="English" data-pt="English">English</button>
+                <button class="lang-btn" onclick="setLanguage('pt')" data-en="Português" data-pt="Português">Português</button>
+            </div>
+        </div>
+
+        <div id="employeeView" class="employee-view">
+            <h2 class="section-title" data-en="📋 Request Vacation" data-pt="📋 Solicitar Férias">📋 Request Vacation</h2>
+            <div class="form-group">
+                <label for="empName" data-en="Employee Name:" data-pt="Nome do Funcionário:">Employee Name:</label>
+                <input type="text" id="empName" data-placeholder-en="Enter your name" data-placeholder-pt="Insira seu nome" placeholder="Enter your name">
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="form-group">
+                    <label for="startDate" data-en="Start Date:" data-pt="Data de Início:">Start Date:</label>
+                    <input type="date" id="startDate" onchange="calculateDays()">
+                </div>
+                <div class="form-group">
+                    <label for="endDate" data-en="End Date:" data-pt="Data de Término:">End Date:</label>
+                    <input type="date" id="endDate" onchange="calculateDays()">
+                </div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div class="form-group">
+                    <label for="vacationType" data-en="Vacation Type:" data-pt="Tipo de Licença:">Vacation Type:</label>
+                    <select id="vacationType">
+                        <option value="vacation" data-en="Vacation" data-pt="Férias">Vacation</option>
+                        <option value="sick" data-en="Sick Leave" data-pt="Licença Médica">Sick Leave</option>
+                        <option value="personal" data-en="Day Off" data-pt="Folga">Day Off</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="days" data-en="Days Count:" data-pt="Contagem de Dias:">Days Count:</label>
+                    <input type="number" id="days" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="notes" data-en="Notes:" data-pt="Notas:">Notes:</label>
+                <textarea id="notes" data-placeholder-en="Any additional information..." data-placeholder-pt="Qualquer informação adicional..." placeholder="Any additional information..."></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="submitRequest()" data-en="📤 Submit Request" data-pt="📤 Enviar Solicitação">📤 Submit Request</button>
+            <h2 class="section-title" style="margin-top: 40px;" data-en="📊 Your Vacation Days" data-pt="📊 Seus Dias de Férias">📊 Your Vacation Days</h2>
+            <div class="vacation-days">
+                <div class="day-item"><div class="number" id="availableDays">20</div><div class="label" data-en="Available Days" data-pt="Dias Disponíveis">Available Days</div></div>
+                <div class="day-item"><div class="number" id="usedDays">0</div><div class="label" data-en="Used Days" data-pt="Dias Usados">Used Days</div></div>
+                <div class="day-item"><div class="number" id="remainingDays">20</div><div class="label" data-en="Remaining Days" data-pt="Dias Restantes">Remaining Days</div></div>
+            </div>
+            <h2 class="section-title" style="margin-top: 40px;" data-en="📅 Company Calendar" data-pt="📅 Calendário da Empresa">📅 Company Calendar</h2>
+            <div id="employeeCalendar" style="overflow-x: auto;"></div>
+            <h2 class="section-title" style="margin-top: 40px;" data-en="📝 Your Requests" data-pt="📝 Suas Solicitações">📝 Your Requests</h2>
+            <div id="employeeRequests"></div>
+        </div>
+
+        <div id="ownerView" class="owner-view hidden">
+            <div id="pendingApprovalsSection" style="display: none;">
+                <h2 class="section-title" data-en="⏳ Pending Approvals" data-pt="⏳ Aprovações Pendentes">⏳ Pending Approvals</h2>
+                <div id="pendingApprovals"></div>
+            </div>
+            <h2 class="section-title" data-en="📊 Dashboard" data-pt="📊 Painel de Controle">📊 Dashboard</h2>
+            <div class="stats">
+                <div class="stat-card"><div class="stat-number" id="totalRequests">0</div><div class="stat-label" data-en="Total Requests" data-pt="Solicitações Totais">Total Requests</div></div>
+                <div class="stat-card"><div class="stat-number" id="pendingRequests">0</div><div class="stat-label" data-en="Pending Approval" data-pt="Aprovação Pendente">Pending Approval</div></div>
+                <div class="stat-card"><div class="stat-number" id="approvedCount">0</div><div class="stat-label" data-en="Approved" data-pt="Aprovadas">Approved</div></div>
+                <div class="stat-card"><div class="stat-number" id="employeesOut">0</div><div class="stat-label" data-en="Out Today" data-pt="Fora Hoje">Out Today</div></div>
+            </div>
+            <h2 class="section-title" style="margin-top: 40px;" data-en="👥 Team Calendar" data-pt="👥 Calendário da Equipe">👥 Team Calendar</h2>
+            <div id="ownerCalendar" style="overflow-x: auto;"></div>
+            <h2 class="section-title" style="margin-top: 40px;" data-en="📜 All Requests" data-pt="📜 Todas as Solicitações">📜 All Requests</h2>
+            <div id="allRequests"></div>
+        </div>
+    </div>
+
+    <script type="module" src="./js/app.js"></script>
+</body>
+</html>
